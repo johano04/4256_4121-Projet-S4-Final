@@ -25,6 +25,7 @@
             <a class="nav-link<?= current_url() === site_url('client/depot') ? ' active' : '' ?>" href="<?= site_url('client/depot') ?>"><i class="bi bi-plus-circle"></i><span class="nav-label">Dépôt</span></a>
             <a class="nav-link<?= current_url() === site_url('client/retrait') ? ' active' : '' ?>" href="<?= site_url('client/retrait') ?>"><i class="bi bi-dash-circle"></i><span class="nav-label">Retrait</span></a>
             <a class="nav-link<?= current_url() === site_url('client/transfert') ? ' active' : '' ?>" href="<?= site_url('client/transfert') ?>"><i class="bi bi-arrow-left-right"></i><span class="nav-label">Transfert</span></a>
+            <a class="nav-link<?= current_url() === site_url('client/transfert/multiple') ? ' active' : '' ?>" href="<?= site_url('client/transfert/multiple') ?>"><i class="bi bi-people"></i><span class="nav-label">Envoi multiple</span></a>
             <a class="nav-link<?= current_url() === site_url('client/historique') ? ' active' : '' ?>" href="<?= site_url('client/historique') ?>"><i class="bi bi-clock-history"></i><span class="nav-label">Historique</span></a>
         </div>
         <div class="ms-auto d-flex align-items-center gap-2">

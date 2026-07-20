@@ -20,6 +20,8 @@ $routes->group('client', ['namespace' => 'App\Controllers\Client', 'filter' => '
 
     $routes->get('transfert', 'TransfertController::index');
     $routes->post('transfert', 'TransfertController::effectuer');
+    $routes->get('transfert/multiple', 'TransfertController::multiple');
+    $routes->post('transfert/multiple', 'TransfertController::effectuerMultiple');
 
     $routes->get('historique', 'HistoriqueController::index');
 });
@@ -36,6 +38,10 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'ad
     $routes->post('prefixes/(:num)/basculer', 'PrefixeController::basculerActif/$1');
     $routes->post('prefixes/(:num)/supprimer', 'PrefixeController::supprimer/$1');
 
+    $routes->get('operateurs', 'OperateurController::index');
+    $routes->post('operateurs', 'OperateurController::creer');
+    $routes->post('operateurs/(:num)/commission', 'OperateurController::modifierCommission/$1');
+
     $routes->get('types-operation', 'TypeOperationController::index');
     $routes->post('types-operation', 'TypeOperationController::creer');
     $routes->post('types-operation/(:num)/basculer', 'TypeOperationController::basculerActif/$1');
@@ -44,4 +50,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'ad
     $routes->post('frais', 'FraisController::creer');
     $routes->post('frais/(:num)/supprimer', 'FraisController::supprimer/$1');
     $routes->post('frais/(:num)/editer', 'FraisController::editer/$1');
+
+    $routes->get('rapports/gains', 'RapportController::situationGains');
+    $routes->get('rapports/montants', 'RapportController::situationMontants');
 });

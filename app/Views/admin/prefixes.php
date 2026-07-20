@@ -15,7 +15,13 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Opérateur</label>
-                        <input type="text" name="operateur" class="form-control" required>
+                        <select name="operateur_id" class="form-select" required>
+                            <option value="">-- Choisir --</option>
+                            <?php foreach ($operateurs as $o): ?>
+                                <option value="<?= $o['id'] ?>"><?= esc($o['nom_operateur']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="form-text">Pas d'opérateur dans la liste ? <a href="<?= site_url('admin/operateurs') ?>">Ajoutez-le ici</a>.</div>
                     </div>
                     <button type="submit" class="btn btn-dark w-100">Ajouter</button>
                 </form>
@@ -40,7 +46,7 @@
                     <?php foreach ($prefixes as $p): ?>
                         <tr>
                             <td><?= esc($p['prefixe']) ?></td>
-                            <td><?= esc($p['operateur']) ?></td>
+                            <td><?= esc($p['nom_operateur']) ?></td>
                             <td>
                                 <span class="badge bg-<?= $p['actif'] ? 'success' : 'secondary' ?>">
                                     <?= $p['actif'] ? 'Actif' : 'Inactif' ?>
