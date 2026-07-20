@@ -1,6 +1,7 @@
 
 Projet : S4 Final Mobile MOney
 
+COMPTE ADMIN: utilisateur: admin,Mot de passe:admin123
 
 Légende : `[ ]` à faire · `[x]` terminé · `[~]` en cours
 
@@ -33,10 +34,14 @@ Légende : `[ ]` à faire · `[x]` terminé · `[~]` en cours
 - [x] Gestion des préfixes autorisés (`Admin\PrefixeController` + vue `admin/prefixes.php`)
 - [x] Gestion des types d'opération (`Admin\TypeOperationController` + vue `admin/types_operation.php`)
 - [x] Gestion des frais par tranche (`Admin\FraisController` + vue `admin/frais.php`)
+- [x] Édition des tranches de frais existantes (modal « Modifier » + route `frais/(:num)/editer`)
 - [x] Tableau de bord admin : gains par frais + situation globale des comptes (`Admin\DashboardController`)
+- [x] Page d'accueil (`/`) présentant les deux espaces (Client / Administrateur)
+- [x] Lien « Espace administrateur » sur la connexion client et lien « Se connecter en tant que client » sur la connexion admin
 - [ ] Ajouter une recherche/filtre sur la liste des comptes clients
 - [ ] Ajouter une pagination sur l'historique global des opérations (si besoin)
 - [ ] Relecture et tests manuels de tout le module admin
+- [x] Base nettoyée : aucun client exemple (comptes à créer manuellement via `/connexion`)
 
 4256— Côté client
 
@@ -59,9 +64,9 @@ Test
 - [x] Retrait avec solde insuffisant → opération refusée
 - [x] Transfert vers un numéro existant → débit envoyeur (montant + frais), crédit destinataire (montant seul)
 - [x] Transfert vers un numéro inconnu → message d'erreur
-- [ ] Admin : ajout/désactivation d'un préfixe
-- [ ] Admin : ajout/désactivation d'un type d'opération
-- [ ] Admin : ajout/suppression d'une tranche de frais
+- [x] Admin : ajout/désactivation d'un préfixe
+- [x] Admin : ajout/désactivation d'un type d'opération
+- [x] Admin : ajout/suppression/édition d'une tranche de frais
 - [x] Admin : le tableau de bord reflète bien les gains et la situation des comptes
 
 ---
