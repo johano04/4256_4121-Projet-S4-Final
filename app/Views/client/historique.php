@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 
 <div class="card shadow-sm">
-    <div class="card-header">Historique complet des opérations</div>
+    <div class="card-header"><i class="bi bi-clock-history me-2"></i>Historique complet des opérations</div>
     <div class="card-body p-0">
         <?php if (empty($operations)): ?>
             <p class="text-muted p-3 mb-0">Aucune opération pour le moment.</p>

@@ -2,12 +2,16 @@
 
 <?= $this->section('content') ?>
 
-<div class="row justify-content-center">
+<div class="row justify-content-center w-100">
     <div class="col-md-5">
-        <div class="card shadow-sm mt-5">
+        <div class="auth-brand">
+            <span class="auth-brand-icon"><i class="bi bi-wallet2"></i></span>
+            <span class="brand-word">Mobile Money</span>
+        </div>
+        <div class="card shadow-sm">
             <div class="card-body">
-                <h1 class="h4 mb-3 text-center">Mobile Money</h1>
-                <p class="text-muted text-center">Entrez votre numéro de téléphone pour accéder à votre compte.</p>
+                <h1 class="h5 mb-1 text-center">Bienvenue</h1>
+                <p class="text-muted text-center small mb-4">Entrez votre numéro de téléphone pour accéder à votre compte.</p>
 
                 <form method="post" action="<?= site_url('connexion') ?>">
                     <?= csrf_field() ?>
@@ -17,7 +21,7 @@
                                value="<?= old('telephone') ?>" maxlength="10" required>
                         <div class="form-text">Format : 10 chiffres, ex. 0331234567</div>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+                    <button type="submit" class="btn btn-primary w-100"><i class="bi bi-box-arrow-in-right me-1"></i> Se connecter</button>
                 </form>
             </div>
         </div>

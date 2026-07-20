@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-5">
         <div class="card shadow-sm">
-            <div class="card-header">Ajouter une tranche de frais</div>
+            <div class="card-header"><i class="bi bi-plus-lg me-2"></i>Ajouter une tranche de frais</div>
             <div class="card-body">
                 <form method="post" action="<?= site_url('admin/frais') ?>">
                     <?= csrf_field() ?>

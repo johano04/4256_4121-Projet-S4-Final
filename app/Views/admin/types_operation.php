@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-5">
         <div class="card shadow-sm">
-            <div class="card-header">Ajouter un type d'opération</div>
+            <div class="card-header"><i class="bi bi-plus-lg me-2"></i>Ajouter un type d'opération</div>
             <div class="card-body">
                 <form method="post" action="<?= site_url('admin/types-operation') ?>">
                     <?= csrf_field() ?>
@@ -25,7 +25,7 @@
 
     <div class="col-md-7">
         <div class="card shadow-sm">
-            <div class="card-header">Types d'opération</div>
+            <div class="card-header"><i class="bi bi-tags me-2"></i>Types d'opération</div>
             <div class="card-body p-0">
                 <table class="table mb-0">
                     <thead>

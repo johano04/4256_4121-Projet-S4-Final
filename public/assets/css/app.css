@@ -1,0 +1,193 @@
+/* ==========================================================
+   Mobile Money - feuille de style perso
+   Petites ameliorations par dessus Bootstrap 5
+   ============================================================ */
+
+:root {
+    --couleur-principale: #4f46e5;
+    --couleur-principale-fonce: #3730a3;
+    --couleur-texte: #222;
+    --couleur-texte-gris: #6c757d;
+    --couleur-fond: #f2f3f8;
+    --rayon: 10px;
+}
+
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: var(--couleur-fond);
+    color: var(--couleur-texte);
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 600;
+}
+
+a {
+    color: var(--couleur-principale);
+}
+
+/* ---------- shells ---------- */
+
+.app-shell {
+    min-height: 100vh;
+    padding-bottom: 2rem;
+}
+
+.auth-shell {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(180deg, #e8eafc 0%, #f2f3f8 100%);
+}
+
+.auth-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    margin-bottom: 1rem;
+}
+
+.auth-brand .auth-brand-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--couleur-principale);
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.auth-brand .brand-word {
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--couleur-texte);
+}
+
+/* ---------- navbar ---------- */
+
+.navbar.navbar-app,
+.navbar.navbar-app-admin {
+    background-color: var(--couleur-principale-fonce) !important;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-weight: 700;
+}
+
+.navbar-brand .brand-badge {
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.navbar .nav-link {
+    color: rgba(255, 255, 255, 0.85) !important;
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: #fff !important;
+    text-decoration: underline;
+}
+
+.navbar .badge-phone {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: var(--rayon);
+    padding: .3rem .7rem;
+    font-size: .85rem;
+    color: #fff;
+}
+
+/* ---------- cards ---------- */
+
+.card {
+    border: 1px solid #e5e5e5;
+    border-radius: var(--rayon);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+    font-weight: 600;
+    background-color: #fafafa;
+}
+
+/* cartes de stats (bg-primary, bg-success, etc utilisees comme "tuiles") */
+.card.bg-primary { background-color: var(--couleur-principale) !important; }
+.card.bg-success { background-color: #198754 !important; }
+.card.bg-info    { background-color: #0dcaf0 !important; }
+.card.bg-warning { background-color: #fd7e14 !important; color: #fff !important; }
+.card.bg-dark    { background-color: #212529 !important; }
+
+.card .card-subtitle {
+    opacity: .85;
+    font-weight: 500;
+}
+
+/* ---------- boutons ---------- */
+
+.btn {
+    border-radius: var(--rayon);
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: var(--couleur-principale);
+    border-color: var(--couleur-principale);
+}
+
+.btn-primary:hover {
+    background-color: var(--couleur-principale-fonce);
+    border-color: var(--couleur-principale-fonce);
+}
+
+/* ---------- formulaires ---------- */
+
+.form-label {
+    font-weight: 500;
+}
+
+.form-control,
+.form-select {
+    border-radius: var(--rayon);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--couleur-principale);
+    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.2);
+}
+
+/* ---------- tableaux ---------- */
+
+.table thead th {
+    font-weight: 600;
+    color: var(--couleur-texte-gris);
+}
+
+.table tbody tr:hover {
+    background-color: #f6f6fb;
+}
+
+/* ---------- badges / alertes ---------- */
+
+.badge {
+    border-radius: var(--rayon);
+    font-weight: 500;
+}
+
+.alert {
+    border-radius: var(--rayon);
+}

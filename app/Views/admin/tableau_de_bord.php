@@ -6,7 +6,7 @@
     <div class="col-md-4">
         <div class="card text-white bg-success shadow-sm">
             <div class="card-body">
-                <h6 class="card-subtitle mb-2">Gains totaux (frais)</h6>
+                <h6 class="card-subtitle mb-2"><i class="bi bi-cash-coin me-1"></i>Gains totaux (frais)</h6>
                 <h2 class="card-title"><?= number_format($totalFrais, 0, ',', ' ') ?> Ar</h2>
             </div>
         </div>
@@ -14,7 +14,7 @@
     <div class="col-md-4">
         <div class="card text-white bg-primary shadow-sm">
             <div class="card-body">
-                <h6 class="card-subtitle mb-2">Nombre de clients</h6>
+                <h6 class="card-subtitle mb-2"><i class="bi bi-people me-1"></i>Nombre de clients</h6>
                 <h2 class="card-title"><?= $nombreClients ?></h2>
             </div>
         </div>
@@ -22,7 +22,7 @@
     <div class="col-md-4">
         <div class="card text-white bg-info shadow-sm">
             <div class="card-body">
-                <h6 class="card-subtitle mb-2">Total des soldes clients</h6>
+                <h6 class="card-subtitle mb-2"><i class="bi bi-piggy-bank me-1"></i>Total des soldes clients</h6>
                 <h2 class="card-title"><?= number_format($totalSoldeClients, 0, ',', ' ') ?> Ar</h2>
             </div>
         </div>
@@ -32,7 +32,7 @@
 <div class="row">
     <div class="col-md-5">
         <div class="card shadow-sm">
-            <div class="card-header">Gains par type d'opération</div>
+            <div class="card-header"><i class="bi bi-bar-chart me-2"></i>Gains par type d'opération</div>
             <div class="card-body p-0">
                 <table class="table mb-0">
                     <thead>
@@ -58,7 +58,7 @@
 
     <div class="col-md-7">
         <div class="card shadow-sm">
-            <div class="card-header">Situation globale des comptes clients</div>
+            <div class="card-header"><i class="bi bi-people-fill me-2"></i>Situation globale des comptes clients</div>
             <div class="card-body p-0" style="max-height: 400px; overflow-y: auto;">
                 <table class="table mb-0">
                     <thead>
