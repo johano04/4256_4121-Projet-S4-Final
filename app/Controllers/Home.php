@@ -10,6 +10,10 @@ class Home extends BaseController
             return redirect()->to('/client/tableau-de-bord');
         }
 
-        return redirect()->to('/connexion');
+        if (session()->get('is_admin')) {
+            return redirect()->to('/admin');
+        }
+
+        return view('accueil');
     }
 }

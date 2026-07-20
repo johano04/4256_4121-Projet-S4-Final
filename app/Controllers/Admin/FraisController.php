@@ -60,4 +60,32 @@ class FraisController extends BaseController
 
         return redirect()->to('/admin/frais')->with('succes', 'Tranche de frais supprimée.');
     }
+
+    public function editer(int $id)
+    {
+        $tranche = $this->trancheFraisModel->find($id);
+
+        if ($tranche === null) {
+            return redirect()->to('/admin/frais')->with('erreur', 'Tranche introuvable.');
+        }
+
+        $regles = [
+            'montant_min' => 'required|decimal',
+            'frais'       => 'required|decimal',
+        ];
+
+        if (! $this->validate($regles)) {
+            return redirect()->back()->withInput()->with('erreurs', $this->validator->getErrors());
+        }
+
+        $montantMax = $this->request->getPost('montant_max');
+
+        $this->trancheFraisModel->update($id, [
+            'montant_min' => (float) $this->request->getPost('montant_min'),
+            'montant_max' => $montantMax === '' ? null : (float) $montantMax,
+            'frais'       => (float) $this->request->getPost('frais'),
+        ]);
+
+        return redirect()->to('/admin/frais')->with('succes', 'Tranche de frais modifiée.');
+    }
 }

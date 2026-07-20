@@ -24,6 +24,12 @@
                     </div>
                     <button type="submit" class="btn btn-dark w-100"><i class="bi bi-box-arrow-in-right me-1"></i> Se connecter</button>
                 </form>
+
+                <div class="text-center mt-3">
+                    <a href="<?= site_url('connexion') ?>" class="small text-muted">
+                        <i class="bi bi-person-circle me-1"></i>Se connecter en tant que client
+                    </a>
+                </div>
             </div>
         </div>
     </div>

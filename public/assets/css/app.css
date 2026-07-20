@@ -60,6 +60,18 @@ a {
     font-size: 1.2rem;
 }
 
+.auth-brand-icon {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--couleur-principale);
+    color: #fff;
+    font-size: 1.4rem;
+}
+
 .auth-brand .brand-word {
     font-weight: 700;
     font-size: 1.15rem;

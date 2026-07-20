@@ -60,12 +60,52 @@
                                     <td><?= $tr['montant_max'] === null ? 'Sans limite' : number_format((float) $tr['montant_max'], 0, ',', ' ') . ' Ar' ?></td>
                                     <td><?= number_format((float) $tr['frais'], 0, ',', ' ') ?> Ar</td>
                                     <td class="text-end">
-                                        <form method="post" action="<?= site_url('admin/frais/' . $tr['id'] . '/supprimer') ?>">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                data-bs-toggle="modal" data-bs-target="#editModal<?= $tr['id'] ?>">
+                                            Modifier
+                                        </button>
+                                        <form method="post" action="<?= site_url('admin/frais/' . $tr['id'] . '/supprimer') ?>" class="d-inline">
                                             <?= csrf_field() ?>
                                             <button class="btn btn-sm btn-outline-danger">Supprimer</button>
                                         </form>
                                     </td>
                                 </tr>
+
+                                <div class="modal fade" id="editModal<?= $tr['id'] ?>" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form method="post" action="<?= site_url('admin/frais/' . $tr['id'] . '/editer') ?>">
+                                                <?= csrf_field() ?>
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Modifier la tranche</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Montant minimum (Ar)</label>
+                                                        <input type="number" name="montant_min" class="form-control" min="0" step="1"
+                                                               value="<?= (float) $tr['montant_min'] ?>" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Montant maximum (Ar)</label>
+                                                        <input type="number" name="montant_max" class="form-control" min="0" step="1"
+                                                               value="<?= $tr['montant_max'] === null ? '' : (float) $tr['montant_max'] ?>">
+                                                        <div class="form-text">Laisser vide = pas de limite supérieure</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Frais appliqué (Ar)</label>
+                                                        <input type="number" name="frais" class="form-control" min="0" step="1"
+                                                               value="<?= (float) $tr['frais'] ?>" required>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                    <button type="submit" class="btn btn-dark">Enregistrer</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php endforeach; ?>
                             </tbody>
                         </table>

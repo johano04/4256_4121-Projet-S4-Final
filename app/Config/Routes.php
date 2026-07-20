@@ -43,4 +43,5 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'ad
     $routes->get('frais', 'FraisController::index');
     $routes->post('frais', 'FraisController::creer');
     $routes->post('frais/(:num)/supprimer', 'FraisController::supprimer/$1');
+    $routes->post('frais/(:num)/editer', 'FraisController::editer/$1');
 });

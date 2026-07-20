@@ -23,6 +23,12 @@
                     </div>
                     <button type="submit" class="btn btn-primary w-100"><i class="bi bi-box-arrow-in-right me-1"></i> Se connecter</button>
                 </form>
+
+                <div class="text-center mt-3">
+                    <a href="<?= site_url('admin/connexion') ?>" class="small text-muted">
+                        <i class="bi bi-shield-lock me-1"></i>Espace administrateur
+                    </a>
+                </div>
             </div>
         </div>
     </div>
