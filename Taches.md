@@ -76,3 +76,25 @@ Livraison V1
 - [x] `base.sql` à jour à la racine
 - [x] `Taches.md` à jour
 - [x] Commit final + tag `v1`
+
+---
+
+4121 — Côté opérateur (admin) — V2
+
+- [x] Table `operateurs` (nom + `commission_inter_operateur` %) — `Admin\OperateurController` + vue `admin/operateurs.php`
+- [x] Préfixes rattachés à un opérateur via `operateur_id` (FK) au lieu d'un texte libre (`Admin\PrefixeController`, `admin/prefixes.php`)
+- [x] Commission inter-opérateur appliquée automatiquement quand un transfert change d'opérateur (en plus des frais normaux)
+- [x] Page « Situation gain via les différents frais » : intra vs inter-opérateur, commission normale vs supplémentaire — `Admin\RapportController::situationGains` + `admin/situation_gains.php`
+- [x] Page « Situation des montants par opérateur » : total envoyé (transferts) vers chaque opérateur — `Admin\RapportController::situationMontants` + `admin/situation_montants.php`
+
+4256 — Côté client — V2
+
+- [x] Case « Inclure frais de retrait » sur le transfert : l'expéditeur prépaie le frais de retrait, le destinataire reçoit sans frais — `Client\TransfertController::effectuer`
+- [x] Envoi multiple : plusieurs numéros, division automatique du montant total OU montant personnalisé par numéro — `Client\TransfertController::multiple` / `effectuerMultiple` + vue `client/transfert_multiple.php`
+- [x] Historique : badge « lot » pour les envois multiples, colonne commission inter-opérateur
+
+Base de données V2
+
+- [x] `base.sql` corrigé (conflit Git non résolu) et étendu (table `operateurs`, `operations.commission_supplementaire`/`est_inter_operateur`/`frais_retrait_inclus`/`reference_groupe`/`role`, nouvelles vues)
+- [x] Migration CI4 `app/Database/Migrations/2026-07-20-100000_AjoutOperateursEtCommissions.php`
+- [x] Testé de bout en bout (transfert intra/inter, frais de retrait inclus, envoi multiple, rapports admin) sur le serveur de dev
