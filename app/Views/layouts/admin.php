@@ -32,7 +32,7 @@
             </div>
             <form method="post" action="<?= site_url('admin/deconnexion') ?>" class="m-0">
                 <?= csrf_field() ?>
-                <button class="btn btn-outline-light btn-sm"><i class="bi bi-box-arrow-right"></i> Deconexion</button>
+                <button class="btn btn-outline-light btn-sm"><i class="bi bi-box-arrow-right"></i> Deconnexion</button>
             </form>
         </div>
     </div>
