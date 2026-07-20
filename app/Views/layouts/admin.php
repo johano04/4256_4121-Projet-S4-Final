@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $titre ?? 'Administration - Mobile Money' ?></title>
+    <title><?= $titre ?? 'Administration - VolaDigital' ?></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
     <div class="container">
         <a class="navbar-brand" href="<?= site_url('admin') ?>">
             <span class="brand-badge"><i class="bi bi-shield-lock"></i></span>
-            Mobile Money <span class="d-none d-sm-inline">· Admin</span>
+            VolaDigital <span class="d-none d-sm-inline">· Admin</span>
         </a>
         <div class="navbar-nav flex-row flex-wrap">
             <a class="nav-link<?= current_url() === site_url('admin') ? ' active' : '' ?>" href="<?= site_url('admin') ?>"><i class="bi bi-speedometer2"></i><span class="nav-label">Tableau de bord</span></a>

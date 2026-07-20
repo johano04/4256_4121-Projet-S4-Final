@@ -6,7 +6,7 @@
     <div class="col-md-5">
         <div class="auth-brand">
             <span class="auth-brand-icon"><i class="bi bi-wallet2"></i></span>
-            <span class="brand-word">Mobile Money</span>
+            <span class="brand-word">VolaDigital</span>
         </div>
         <div class="card shadow-sm">
             <div class="card-body">

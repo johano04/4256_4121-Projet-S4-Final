@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\OperateurModel;
 
 /**
- * Configuration des opérateurs Mobile Money et de leur commission
+ * Configuration des opérateurs VolaDigital et de leur commission
  * inter-opérateur (surcoût % appliqué quand un transfert change d'opérateur).
  */
 class OperateurController extends BaseController
