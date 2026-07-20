@@ -17,7 +17,7 @@
                     <?= csrf_field() ?>
                     <div class="mb-3">
                         <label class="form-label">Numéro de téléphone</label>
-                        <input type="text" name="telephone" class="form-control" placeholder="0331234567"
+                        <input type="text" name="telephone" class="form-control" placeholder="03......"
                                value="<?= old('telephone') ?>" maxlength="10" required>
                         <div class="form-text">Format : 10 chiffres, ex. 0331234567</div>
                     </div>
