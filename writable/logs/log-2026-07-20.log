@@ -204,3 +204,9 @@ in SYSTEMPATH/Database/SQLite3/Connection.php on line 164.
 14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
 15 SYSTEMPATH/rewrite.php(44): require_once('/home/tahina/Bureau/4256_4121-Projet-S4-Final/public/index.php')
 >>>>>>> 59a97c7b961abbec2d87040bfc21e4fe4164f648
+DEBUG - 2026-07-20 08:43:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-07-20 08:43:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-07-20 08:43:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-07-20 08:43:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-07-20 08:43:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-07-20 08:43:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
