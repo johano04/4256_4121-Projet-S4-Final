@@ -20,7 +20,7 @@
             <span class="brand-badge"><i class="bi bi-wallet2"></i></span>
             VolaDigital
         </a>
-        <div class="navbar-nav flex-row flex-wrap">
+        <div class="navbar-nav flex-row flex-wrap me-auto">
             <a class="nav-link<?= current_url() === site_url('client/tableau-de-bord') ? ' active' : '' ?>" href="<?= site_url('client/tableau-de-bord') ?>"><i class="bi bi-speedometer2"></i><span class="nav-label">Tableau de bord</span></a>
             <a class="nav-link<?= current_url() === site_url('client/depot') ? ' active' : '' ?>" href="<?= site_url('client/depot') ?>"><i class="bi bi-plus-circle"></i><span class="nav-label">Dépôt</span></a>
             <a class="nav-link<?= current_url() === site_url('client/retrait') ? ' active' : '' ?>" href="<?= site_url('client/retrait') ?>"><i class="bi bi-dash-circle"></i><span class="nav-label">Retrait</span></a>
@@ -32,7 +32,7 @@
             <span class="badge-phone d-none d-sm-inline"><?= esc(session()->get('client_telephone')) ?></span>
             <form method="post" action="<?= site_url('deconnexion') ?>" class="m-0">
                 <?= csrf_field() ?>
-                <button class="btn btn-outline-light btn-sm"><i class="bi bi-box-arrow-right"></i></button>
+                <button class="btn btn-outline-light btn-sm"><i class="bi bi-box-arrow-right"></i> Deconexion</button>
             </form>
         </div>
     </div>

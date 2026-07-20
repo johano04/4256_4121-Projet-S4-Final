@@ -80,9 +80,13 @@ a {
 
 /* ---------- navbar ---------- */
 
-.navbar.navbar-app,
+.navbar.navbar-app {
+    background-color: var(--couleur-principale-fonce) !important;
+}
+
 .navbar.navbar-app-admin {
     background-color: var(--couleur-principale-fonce) !important;
+    justify-content: flex-start;
 }
 
 .navbar-brand {
