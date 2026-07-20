@@ -5,7 +5,7 @@
 <div class="container py-5">
     <div class="text-center mb-5">
         <span class="auth-brand-icon mb-2"><i class="bi bi-wallet2"></i></span>
-        <h1 class="h3 mb-1">Mobile Money</h1>
+        <h1 class="h3 mb-1">VolaDigital</h1>
         <p class="text-muted">Choisissez votre espace pour accéder à l'application.</p>
     </div>
 

@@ -1,7 +1,6 @@
 
-Projet : S4 Final Mobile MOney
+Projet : S4 Final Mobile Money
 
-COMPTE ADMIN: utilisateur: admin,Mot de passe:admin123
 
 Légende : `[ ]` à faire · `[x]` terminé · `[~]` en cours
 

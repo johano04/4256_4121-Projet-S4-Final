@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $titre ?? 'Mobile Money' ?></title>
+    <title><?= $titre ?? 'VolaDigital' ?></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
     <div class="container">
         <a class="navbar-brand" href="<?= site_url('client/tableau-de-bord') ?>">
             <span class="brand-badge"><i class="bi bi-wallet2"></i></span>
-            Mobile Money
+            VolaDigital
         </a>
         <div class="navbar-nav flex-row flex-wrap">
             <a class="nav-link<?= current_url() === site_url('client/tableau-de-bord') ? ' active' : '' ?>" href="<?= site_url('client/tableau-de-bord') ?>"><i class="bi bi-speedometer2"></i><span class="nav-label">Tableau de bord</span></a>
