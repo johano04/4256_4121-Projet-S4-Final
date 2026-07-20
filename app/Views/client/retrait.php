@@ -1,0 +1,27 @@
+<?= $this->extend('layouts/client') ?>
+
+<?= $this->section('content') ?>
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="h4 mb-3">Faire un retrait</h1>
+                <p class="text-muted">Solde actuel : <?= number_format($client['solde'], 0, ',', ' ') ?> Ar</p>
+                <p class="small text-muted">Des frais seront appliqués selon le montant retiré.</p>
+
+                <form method="post" action="<?= site_url('client/retrait') ?>">
+                    <?= csrf_field() ?>
+                    <div class="mb-3">
+                        <label class="form-label">Montant à retirer (Ar)</label>
+                        <input type="number" name="montant" class="form-control" min="1" step="1"
+                               value="<?= old('montant') ?>" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100">Confirmer le retrait</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?= $this->endSection() ?>
