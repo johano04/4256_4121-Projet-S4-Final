@@ -1,22 +1,19 @@
-# Taches.md — Suivi des tâches (Version 1)
 
-Projet : Simulateur d'opérateur Mobile Money
-Binôme : Étudiant 1 (_à compléter_) / Étudiant 2 (_à compléter_)
+Projet : S4 Final Mobile MOney
+
 
 Légende : `[ ]` à faire · `[x]` terminé · `[~]` en cours
 
 ---
 
-## Répartition proposée
 
-- **Étudiant 1 — Côté opérateur (admin)**
-- **Étudiant 2 — Côté client**
+- 4121 — Côté opérateur (admin)
+- 4256 — Côté client
 
 (À adapter selon vos préférences, mais évitez de travailler à deux sur le même fichier en même temps pour limiter les conflits Git.)
 
 ---
-
-## Socle commun (à faire ensemble avant de se répartir)
+-On a fait ceci ensemble :
 
 - [x] Installation du projet CodeIgniter 4
 - [x] Configuration de la base SQLite (`.env`, `app/Config/Database.php`)
@@ -30,8 +27,7 @@ Légende : `[ ]` à faire · `[x]` terminé · `[~]` en cours
 - [x] Layouts Bootstrap (`layouts/client.php`, `layouts/admin.php`)
 
 ---
-
-## Étudiant 1 — Côté opérateur (admin)
+4121 — Côté opérateur (admin)
 
 - [x] Connexion admin (`Admin\AuthController`)
 - [x] Gestion des préfixes autorisés (`Admin\PrefixeController` + vue `admin/prefixes.php`)
@@ -42,7 +38,7 @@ Légende : `[ ]` à faire · `[x]` terminé · `[~]` en cours
 - [ ] Ajouter une pagination sur l'historique global des opérations (si besoin)
 - [ ] Relecture et tests manuels de tout le module admin
 
-## Étudiant 2 — Côté client
+4256— Côté client
 
 - [x] Connexion automatique par numéro de téléphone (`AuthController`)
 - [x] Tableau de bord client : solde + dernières opérations (`Client\CompteController`)
@@ -54,25 +50,24 @@ Légende : `[ ]` à faire · `[x]` terminé · `[~]` en cours
 - [ ] Relecture et tests manuels de tout le module client
 
 ---
+Test 
 
-## Tests à faire avant de taguer v1
-
-- [ ] Connexion avec un numéro à préfixe autorisé → compte créé automatiquement
-- [ ] Connexion avec un numéro à préfixe non autorisé → message d'erreur
-- [ ] Dépôt → solde mis à jour, opération dans l'historique
-- [ ] Retrait avec solde suffisant → frais appliqués correctement selon la tranche
-- [ ] Retrait avec solde insuffisant → opération refusée
-- [ ] Transfert vers un numéro existant → débit envoyeur (montant + frais), crédit destinataire (montant seul)
-- [ ] Transfert vers un numéro inconnu → message d'erreur
+- [x] Connexion avec un numéro à préfixe autorisé → compte créé automatiquement
+- [x] Connexion avec un numéro à préfixe non autorisé → message d'erreur
+- [x] Dépôt → solde mis à jour, opération dans l'historique
+- [x] Retrait avec solde suffisant → frais appliqués correctement selon la tranche
+- [x] Retrait avec solde insuffisant → opération refusée
+- [x] Transfert vers un numéro existant → débit envoyeur (montant + frais), crédit destinataire (montant seul)
+- [x] Transfert vers un numéro inconnu → message d'erreur
 - [ ] Admin : ajout/désactivation d'un préfixe
 - [ ] Admin : ajout/désactivation d'un type d'opération
 - [ ] Admin : ajout/suppression d'une tranche de frais
-- [ ] Admin : le tableau de bord reflète bien les gains et la situation des comptes
+- [x] Admin : le tableau de bord reflète bien les gains et la situation des comptes
 
 ---
 
-## Livraison V1
+Livraison V1
 
-- [ ] `base.sql` à jour à la racine
-- [ ] `Taches.md` à jour
-- [ ] Commit final + tag `v1`
+- [x] `base.sql` à jour à la racine
+- [x] `Taches.md` à jour
+- [x] Commit final + tag `v1`
