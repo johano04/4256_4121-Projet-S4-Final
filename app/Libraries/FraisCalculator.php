@@ -26,6 +26,6 @@ class FraisCalculator
      */
     public function calculerCommissionInterOperateur(float $montant, float $tauxPourcent): float
     {
-        return round($montant * $tauxPourcent / 100, 2);
+        return round($montant * $tauxPourcent / 100, 10);
     }
 }

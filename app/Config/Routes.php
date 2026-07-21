@@ -24,6 +24,10 @@ $routes->group('client', ['namespace' => 'App\Controllers\Client', 'filter' => '
     $routes->post('transfert/multiple', 'TransfertController::effectuerMultiple');
 
     $routes->get('historique', 'HistoriqueController::index');
+
+    $routes->get('epargne','EpargneController::index');
+    $routes->post('epargne/verser', 'EpargneController::verser');
+    $routes->post('epargne/retirer', 'EpargneController::retirer');
 });
 
 $routes->get('/admin/connexion', 'Admin\AuthController::index');
@@ -54,4 +58,6 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'ad
     $routes->get('rapports/gains', 'RapportController::situationGains');
     $routes->get('rapports/montants', 'RapportController::situationMontants');
     $routes->get('rapports/journal', 'RapportController::journal');
+
+   
 });

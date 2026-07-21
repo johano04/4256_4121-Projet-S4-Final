@@ -31,6 +31,7 @@
                 <a class="nav-link<?= current_url() === site_url('client/transfert') ? ' active' : '' ?>" href="<?= site_url('client/transfert') ?>"><i class="bi bi-arrow-left-right"></i><span>Transfert</span></a>
                 <a class="nav-link<?= current_url() === site_url('client/transfert/multiple') ? ' active' : '' ?>" href="<?= site_url('client/transfert/multiple') ?>"><i class="bi bi-people"></i><span>Envoi multiple</span></a>
                 <a class="nav-link<?= current_url() === site_url('client/historique') ? ' active' : '' ?>" href="<?= site_url('client/historique') ?>"><i class="bi bi-clock-history"></i><span>Historique</span></a>
+                 <a class="nav-link<?= current_url() === site_url('client/epargne') ? ' active' : '' ?>" href="<?= site_url('client/epargne') ?>"><i class="bi bi-journal-text"></i><span>EPARGNE</span></a>
             </nav>
             <div class="sidebar-footer">
                 <span class="badge-phone d-block text-center mb-2"><?= esc(session()->get('client_telephone')) ?></span>
