@@ -53,4 +53,5 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'ad
 
     $routes->get('rapports/gains', 'RapportController::situationGains');
     $routes->get('rapports/montants', 'RapportController::situationMontants');
+    $routes->get('rapports/journal', 'RapportController::journal');
 });

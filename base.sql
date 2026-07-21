@@ -70,7 +70,8 @@ CREATE TABLE operations (
     id                          INTEGER PRIMARY KEY AUTOINCREMENT,
     type_operation_id           INTEGER NOT NULL,
     client_id                   INTEGER NOT NULL,        -- client qui initie l'opération
-    client_destinataire_id      INTEGER NULL,             -- rempli uniquement pour un transfert
+    client_destinataire_id      INTEGER NULL,             -- rempli uniquement si le destinataire est un membre (MVola)
+    telephone_destinataire      VARCHAR(15) NULL,         -- rempli uniquement pour un transfert vers un numéro externe (hors MVola, jamais de compte créé)
     montant                     DECIMAL(12,2) NOT NULL,   -- montant de l'opération (hors frais)
     frais                       DECIMAL(12,2) NOT NULL DEFAULT 0, -- commission "normale" (tranche)
     commission_supplementaire   DECIMAL(12,2) NOT NULL DEFAULT 0, -- surcoût inter-opérateur (V2)
@@ -111,7 +112,7 @@ SELECT
     t.code            AS type_code,
     t.libelle         AS type_libelle,
     c1.telephone      AS client_telephone,
-    c2.telephone      AS destinataire_telephone,
+    COALESCE(c2.telephone, o.telephone_destinataire) AS destinataire_telephone,
     o.montant,
     o.frais,
     o.commission_supplementaire,

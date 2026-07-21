@@ -29,6 +29,7 @@
                 <a class="nav-link<?= current_url() === site_url('admin/frais') ? ' active' : '' ?>" href="<?= site_url('admin/frais') ?>"><i class="bi bi-percent"></i><span class="nav-label">Frais</span></a>
                 <a class="nav-link<?= current_url() === site_url('admin/rapports/gains') ? ' active' : '' ?>" href="<?= site_url('admin/rapports/gains') ?>"><i class="bi bi-graph-up-arrow"></i><span class="nav-label">Situation gains</span></a>
                 <a class="nav-link<?= current_url() === site_url('admin/rapports/montants') ? ' active' : '' ?>" href="<?= site_url('admin/rapports/montants') ?>"><i class="bi bi-bar-chart-line"></i><span class="nav-label">Montants par opérateur</span></a>
+                <a class="nav-link<?= current_url() === site_url('admin/rapports/journal') ? ' active' : '' ?>" href="<?= site_url('admin/rapports/journal') ?>"><i class="bi bi-journal-text"></i><span class="nav-label">Journal des transactions</span></a>
             </div>
             <form method="post" action="<?= site_url('admin/deconnexion') ?>" class="m-0">
                 <?= csrf_field() ?>

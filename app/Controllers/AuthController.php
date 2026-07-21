@@ -7,9 +7,15 @@ use App\Models\PrefixeModel;
 
 class AuthController extends BaseController
 {
+    /**
+     * Seul cet opérateur (préfixe) est autorisé à se connecter / s'inscrire sur cette plateforme.
+     * Pour ouvrir la plateforme à d'autres opérateurs, ajouter leur préfixe ici.
+     */
+    private const PREFIXES_AUTORISES = ['038'];
+
     public function index()
     {
-        return view('client/connexion');
+        return view('client/connexion', ['prefixesAutorises' => self::PREFIXES_AUTORISES]);
     }
 
     public function connecter()
@@ -19,6 +25,11 @@ class AuthController extends BaseController
         if ($telephone === '' || ! preg_match('/^[0-9]{10}$/', $telephone)) {
             return redirect()->back()->withInput()
                 ->with('erreur', 'Numéro de téléphone invalide. Format attendu : 10 chiffres.');
+        }
+
+        if (! self::prefixeEstAutorise($telephone)) {
+            return redirect()->back()->withInput()
+                ->with('erreur', 'Seuls les numéros MVola (préfixe ' . implode(', ', self::PREFIXES_AUTORISES) . ') sont acceptés sur cette plateforme.');
         }
 
         $prefixeModel = new PrefixeModel();
@@ -55,5 +66,22 @@ class AuthController extends BaseController
         session()->remove(['client_id', 'client_telephone']);
 
         return redirect()->to('/connexion');
+    }
+
+    /**
+     * Vérifie que le numéro commence par un des préfixes autorisés (PREFIXES_AUTORISES).
+     * Public/static car TransfertController s'en sert aussi pour décider si un
+     * destinataire fait partie du périmètre MVola (compte possible) ou non
+     * (transfert externe, jamais de compte créé).
+     */
+    public static function prefixeEstAutorise(string $telephone): bool
+    {
+        foreach (self::PREFIXES_AUTORISES as $prefixe) {
+            if (str_starts_with($telephone, $prefixe)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Controllers\Client;
 
+use App\Controllers\AuthController;
 use App\Libraries\FraisCalculator;
 use App\Models\OperateurModel;
 use App\Models\OperationModel;
+use App\Models\PrefixeModel;
 use App\Models\TypeOperationModel;
 
 class TransfertController extends ClientBaseController
@@ -12,6 +14,7 @@ class TransfertController extends ClientBaseController
     protected OperateurModel $operateurModel;
     protected TypeOperationModel $typeOperationModel;
     protected FraisCalculator $fraisCalculator;
+    protected PrefixeModel $prefixeModel;
 
     public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
     {
@@ -20,6 +23,7 @@ class TransfertController extends ClientBaseController
         $this->operateurModel     = new OperateurModel();
         $this->typeOperationModel = new TypeOperationModel();
         $this->fraisCalculator    = new FraisCalculator();
+        $this->prefixeModel       = new PrefixeModel();
     }
 
     public function index()
@@ -48,13 +52,13 @@ class TransfertController extends ClientBaseController
             return redirect()->back()->withInput()->with('erreur', "Vous ne pouvez pas vous transférer de l'argent à vous-même.");
         }
 
-        $destinataire = $this->clientModel->trouverParTelephone($telephoneDestinataire);
+        $resolution = $this->resoudreDestinataire($telephoneDestinataire);
 
-        if ($destinataire === null) {
-            return redirect()->back()->withInput()->with('erreur', 'Ce numéro de destinataire est introuvable.');
+        if ($resolution === null) {
+            return redirect()->back()->withInput()->with('erreur', "Ce numéro n'est pas valide ou son préfixe n'est autorisé par aucun opérateur.");
         }
 
-        $detail = $this->calculerDetailTransfert($client['id'], $destinataire['id'], $montant, $inclureFraisRetrait);
+        $detail = $this->calculerDetailTransfert($client['id'], $resolution['operateur'], $montant, $inclureFraisRetrait);
 
         if ($detail['total_debit'] > (float) $client['solde']) {
             return redirect()->back()->withInput()
@@ -64,19 +68,23 @@ class TransfertController extends ClientBaseController
         $db = db_connect();
         $db->transStart();
 
-        $this->enregistrerTransfert($client, $destinataire, $montant, $detail, null);
+        if ($resolution['type'] === 'membre') {
+            $this->enregistrerTransfertInterne($client, $resolution['client'], $montant, $detail, null);
+        } else {
+            $this->enregistrerTransfertExterne($client, $telephoneDestinataire, $montant, $detail, null);
+        }
 
         $db->transComplete();
 
-        $message = 'Transfert de ' . number_format($montant, 0, ',', ' ') . ' Ar vers ' . $destinataire['telephone']
+        $message = 'Transfert de ' . number_format($montant, 0, ',', ' ') . ' Ar vers ' . $telephoneDestinataire
             . ' effectué avec succès. Frais : ' . number_format($detail['frais'], 0, ',', ' ') . ' Ar.';
 
         if ($detail['est_inter_operateur']) {
-            $message .= ' Commission inter-opérateur : ' . number_format($detail['commission_supplementaire'], 0, ',', ' ') . ' Ar.';
+            $message .= ' Commission inter-opérateur (' . $resolution['operateur']['nom_operateur'] . ') : ' . number_format($detail['commission_supplementaire'], 0, ',', ' ') . ' Ar.';
         }
 
         if ($inclureFraisRetrait) {
-            $message .= ' Frais de retrait inclus (offert au destinataire) : ' . number_format($detail['frais_retrait_inclus'], 0, ',', ' ') . ' Ar.';
+            $message .= ' Frais de retrait inclus : ' . number_format($detail['frais_retrait_inclus'], 0, ',', ' ') . ' Ar.';
         }
 
         $message .= ' Total payé : ' . number_format($detail['total_debit'], 0, ',', ' ') . ' Ar.';
@@ -115,16 +123,17 @@ class TransfertController extends ClientBaseController
                 continue;
             }
 
-            $destinataireClient = $this->clientModel->trouverParTelephone($numero);
+            $resolution = $this->resoudreDestinataire($numero);
 
-            if ($destinataireClient === null) {
-                $erreurs[] = "Numéro introuvable : {$numero}.";
+            if ($resolution === null) {
+                $erreurs[] = "Numéro invalide ou préfixe non autorisé : {$numero}.";
                 continue;
             }
 
             $destinataires[] = [
-                'client'  => $destinataireClient,
-                'montant' => $mode === 'personnalise' ? (float) ($montantsPersonnalises[$index] ?? 0) : 0.0,
+                'telephone'  => $numero,
+                'resolution' => $resolution,
+                'montant'    => $mode === 'personnalise' ? (float) ($montantsPersonnalises[$index] ?? 0) : 0.0,
             ];
         }
 
@@ -161,7 +170,7 @@ class TransfertController extends ClientBaseController
         $totalDebit = 0.0;
 
         foreach ($destinataires as &$d) {
-            $d['detail'] = $this->calculerDetailTransfert($client['id'], $d['client']['id'], $d['montant'], $inclureFraisRetrait);
+            $d['detail'] = $this->calculerDetailTransfert($client['id'], $d['resolution']['operateur'], $d['montant'], $inclureFraisRetrait);
             $totalDebit += $d['detail']['total_debit'];
         }
         unset($d);
@@ -178,7 +187,11 @@ class TransfertController extends ClientBaseController
         $db->transStart();
 
         foreach ($destinataires as $d) {
-            $this->enregistrerTransfert($client, $d['client'], $d['montant'], $d['detail'], $referenceGroupe);
+            if ($d['resolution']['type'] === 'membre') {
+                $this->enregistrerTransfertInterne($client, $d['resolution']['client'], $d['montant'], $d['detail'], $referenceGroupe);
+            } else {
+                $this->enregistrerTransfertExterne($client, $d['telephone'], $d['montant'], $d['detail'], $referenceGroupe);
+            }
             $client = $this->clientModel->find($client['id']); // solde à jour pour l'itération suivante
         }
 
@@ -190,19 +203,67 @@ class TransfertController extends ClientBaseController
     }
 
     /**
+     * Résout le destinataire d'un transfert à partir de son numéro :
+     * - 'membre'  : compte client MVola existant, ou créé à la volée si le
+     *               numéro appartient au préfixe autorisé (038) mais ne s'est
+     *               encore jamais connecté (même règle qu'à la connexion).
+     * - 'externe' : numéro valide dont le préfixe est reconnu par un opérateur
+     *               actif mais hors du périmètre MVola. Aucun compte n'est créé
+     *               ni ne sera créé pour ce numéro : seule la transaction est
+     *               tracée (cf. enregistrerTransfertExterne).
+     * Retourne null si le numéro est mal formé ou si son préfixe n'est reconnu
+     * par aucun opérateur.
+     */
+    private function resoudreDestinataire(string $telephone): ?array
+    {
+        if (! preg_match('/^[0-9]{10}$/', $telephone)) {
+            return null;
+        }
+
+        $clientExistant = $this->clientModel->trouverParTelephone($telephone);
+
+        if ($clientExistant !== null) {
+            return ['type' => 'membre', 'client' => $clientExistant, 'operateur' => $this->operateurModel->pourClient($clientExistant['id'])];
+        }
+
+        $prefixe = $this->prefixeModel->trouverParTelephone($telephone);
+
+        if ($prefixe === null) {
+            return null;
+        }
+
+        $operateur = [
+            'id'                         => (int) $prefixe['operateur_id'],
+            'nom_operateur'              => $prefixe['nom_operateur'],
+            'commission_inter_operateur' => $prefixe['commission_inter_operateur'],
+        ];
+
+        if (AuthController::prefixeEstAutorise($telephone)) {
+            $id = $this->clientModel->insert([
+                'telephone'  => $telephone,
+                'prefixe_id' => $prefixe['id'],
+                'solde'      => 0,
+            ], true);
+
+            return ['type' => 'membre', 'client' => $this->clientModel->find($id), 'operateur' => $operateur];
+        }
+
+        return ['type' => 'externe', 'operateur' => $operateur];
+    }
+
+    /**
      * Calcule frais normaux, commission inter-opérateur et frais de retrait
      * inclus pour un transfert donné, sans toucher à la base de données.
      * Réutilisée par effectuer() et effectuerMultiple() pour éviter la duplication.
      */
-    private function calculerDetailTransfert(int $expediteurId, int $destinataireId, float $montant, bool $inclureFraisRetrait): array
+    private function calculerDetailTransfert(int $expediteurId, array $operateurDestinataire, float $montant, bool $inclureFraisRetrait): array
     {
         $typeTransfert = $this->typeOperationModel->trouverParCode('TRANSFERT');
         $frais         = $this->fraisCalculator->calculer((int) $typeTransfert['id'], $montant);
 
-        $operateurExpediteur   = $this->operateurModel->pourClient($expediteurId);
-        $operateurDestinataire = $this->operateurModel->pourClient($destinataireId);
+        $operateurExpediteur = $this->operateurModel->pourClient($expediteurId);
 
-        $estInterOperateur = $operateurExpediteur !== null && $operateurDestinataire !== null
+        $estInterOperateur = $operateurExpediteur !== null
             && (int) $operateurExpediteur['id'] !== (int) $operateurDestinataire['id'];
 
         $commissionSupplementaire = 0.0;
@@ -228,16 +289,17 @@ class TransfertController extends ClientBaseController
             'frais_retrait_inclus'      => $fraisRetraitInclus,
             // Total débité à l'expéditeur : montant + commission normale + commission inter-opérateur + frais de retrait prépayé
             'total_debit'               => $montant + $frais + $commissionSupplementaire + $fraisRetraitInclus,
-            // Le destinataire reçoit le montant, augmenté du frais de retrait prépayé s'il a été inclus
+            // Le destinataire reçoit le montant, augmenté du frais de retrait prépayé s'il a été inclus (uniquement s'il a un compte)
             'credit_destinataire'       => $montant + $fraisRetraitInclus,
         ];
     }
 
     /**
-     * Débite l'expéditeur, crédite le destinataire et journalise les deux
-     * mouvements. À appeler à l'intérieur d'une transaction db_connect().
+     * Transfert vers un membre MVola : débite l'expéditeur, crédite le
+     * destinataire et journalise les deux mouvements (PRINCIPAL + MIROIR).
+     * À appeler à l'intérieur d'une transaction db_connect().
      */
-    private function enregistrerTransfert(array $expediteur, array $destinataire, float $montant, array $detail, ?string $referenceGroupe): void
+    private function enregistrerTransfertInterne(array $expediteur, array $destinataire, float $montant, array $detail, ?string $referenceGroupe): void
     {
         $soldeAvantEnvoyeur     = (float) $expediteur['solde'];
         $soldeApresEnvoyeur     = $soldeAvantEnvoyeur - $detail['total_debit'];
@@ -253,6 +315,7 @@ class TransfertController extends ClientBaseController
             'type_operation_id'         => $detail['type_transfert_id'],
             'client_id'                 => $expediteur['id'],
             'client_destinataire_id'    => $destinataire['id'],
+            'telephone_destinataire'    => $destinataire['telephone'],
             'montant'                   => $montant,
             'frais'                     => $detail['frais'],
             'commission_supplementaire' => $detail['commission_supplementaire'],
@@ -269,6 +332,7 @@ class TransfertController extends ClientBaseController
             'type_operation_id'         => $detail['type_transfert_id'],
             'client_id'                 => $destinataire['id'],
             'client_destinataire_id'    => $expediteur['id'],
+            'telephone_destinataire'    => $expediteur['telephone'],
             'montant'                   => $montant,
             'frais'                     => 0,
             'commission_supplementaire' => 0,
@@ -278,6 +342,39 @@ class TransfertController extends ClientBaseController
             'role'                      => 'MIROIR',
             'solde_avant'               => $soldeAvantDestinataire,
             'solde_apres'               => $soldeApresDestinataire,
+            'statut'                    => 'REUSSI',
+        ]);
+    }
+
+    /**
+     * Transfert vers un numéro externe (hors périmètre MVola) : débite
+     * uniquement l'expéditeur et journalise la transaction avec le numéro du
+     * destinataire en clair, sans jamais créer ni créditer de compte client
+     * pour ce numéro. À appeler à l'intérieur d'une transaction db_connect().
+     */
+    private function enregistrerTransfertExterne(array $expediteur, string $telephoneDestinataire, float $montant, array $detail, ?string $referenceGroupe): void
+    {
+        $soldeAvant = (float) $expediteur['solde'];
+        $soldeApres = $soldeAvant - $detail['total_debit'];
+
+        $this->clientModel->update($expediteur['id'], ['solde' => $soldeApres]);
+
+        $operationModel = new OperationModel();
+
+        $operationModel->insert([
+            'type_operation_id'         => $detail['type_transfert_id'],
+            'client_id'                 => $expediteur['id'],
+            'client_destinataire_id'    => null,
+            'telephone_destinataire'    => $telephoneDestinataire,
+            'montant'                   => $montant,
+            'frais'                     => $detail['frais'],
+            'commission_supplementaire' => $detail['commission_supplementaire'],
+            'est_inter_operateur'       => $detail['est_inter_operateur'] ? 1 : 0,
+            'frais_retrait_inclus'      => $detail['frais_retrait_inclus'],
+            'reference_groupe'          => $referenceGroupe,
+            'role'                      => 'PRINCIPAL',
+            'solde_avant'               => $soldeAvant,
+            'solde_apres'               => $soldeApres,
             'statut'                    => 'REUSSI',
         ]);
     }

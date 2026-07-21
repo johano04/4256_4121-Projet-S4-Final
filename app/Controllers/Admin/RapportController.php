@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\OperationModel;
 
 /**
  * Rapports opérateur V2 :
@@ -57,6 +58,20 @@ class RapportController extends BaseController
         return view('admin/situation_montants', [
             'montants'    => $montants,
             'totalEnvoye' => array_sum(array_column($montants, 'total_envoye')),
+        ]);
+    }
+
+    /**
+     * Journal complet des transactions faites par tous les clients MVola,
+     * qu'elles restent internes (vers un autre membre MVola) ou sortent vers
+     * un autre opérateur (numéro externe, jamais de compte créé pour lui).
+     */
+    public function journal()
+    {
+        $operationModel = new OperationModel();
+
+        return view('admin/journal_transactions', [
+            'operations' => $operationModel->journalMvola(),
         ]);
     }
 }
