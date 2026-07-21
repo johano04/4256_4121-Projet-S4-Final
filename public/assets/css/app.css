@@ -119,12 +119,104 @@ a {
     text-decoration: underline;
 }
 
-.navbar .badge-phone {
+.badge-phone {
     background-color: rgba(255, 255, 255, 0.15);
     border-radius: var(--rayon);
     padding: .3rem .7rem;
     font-size: .85rem;
     color: #fff;
+}
+
+/* ---------- sidebar (menu lateral gauche) ---------- */
+
+.layout-with-sidebar {
+    min-height: 100vh;
+    align-items: stretch;
+}
+
+.sidebar-app {
+    width: 260px;
+    background-color: var(--couleur-principale-fonce);
+    color: #fff;
+}
+
+@media (min-width: 768px) {
+    .sidebar-app {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        flex-shrink: 0;
+    }
+}
+
+.sidebar-app .offcanvas-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+}
+
+.sidebar-brand:hover {
+    color: #fff;
+}
+
+.sidebar-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1rem 1.25rem;
+}
+
+.sidebar-nav {
+    flex: 1 1 auto;
+}
+
+.sidebar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.85) !important;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .6rem .75rem;
+    border-radius: var(--rayon);
+    margin-bottom: .2rem;
+}
+
+.sidebar-nav .nav-link:hover,
+.sidebar-nav .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #fff !important;
+}
+
+.sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
+
+.main-content {
+    min-width: 0;
+    width: 100%;
+}
+
+/* Bootstrap force `background-color: transparent !important` sur .offcanvas-md
+   et .offcanvas-md .offcanvas-body, et `display: none` sur .offcanvas-header,
+   a partir du breakpoint desktop (pour du contenu "inline" comme un menu de
+   navbar). On reprend la main pour garder un vrai fond de sidebar visible et
+   le bloc marque en haut, a toutes les tailles d'ecran. */
+.sidebar-app,
+.sidebar-app .offcanvas-body {
+    background-color: var(--couleur-principale-fonce) !important;
+}
+
+.sidebar-app .offcanvas-header {
+    display: flex !important;
 }
 
 /* ---------- cards ---------- */

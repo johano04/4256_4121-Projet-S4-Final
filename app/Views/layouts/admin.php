@@ -14,32 +14,67 @@
 <body class="<?= session()->get('is_admin') ? 'app-shell' : 'auth-shell' ?>">
 
 <?php if (session()->get('is_admin')): ?>
-<nav class="navbar navbar-expand-lg navbar-app-admin mb-4">
-    <div class="container">
-        <div class="d-flex align-items-center flex-row flex-wrap">
-            <a class="navbar-brand" href="<?= site_url('admin') ?>">
+<div class="d-flex layout-with-sidebar">
+    <div class="offcanvas-md offcanvas-start sidebar-app" tabindex="-1" id="sidebarAdmin" aria-labelledby="sidebarAdminLabel">
+        <div class="offcanvas-header">
+            <a class="sidebar-brand" href="<?= site_url('admin') ?>" id="sidebarAdminLabel">
                 <span class="brand-badge"><i class="bi bi-shield-lock"></i></span>
                 VolaDigital <span class="d-none d-sm-inline">· Admin</span>
             </a>
-            <div class="navbar-nav flex-row flex-wrap">
-                <a class="nav-link<?= current_url() === site_url('admin') ? ' active' : '' ?>" href="<?= site_url('admin') ?>"><i class="bi bi-speedometer2"></i><span class="nav-label">Tableau de bord</span></a>
-                <a class="nav-link<?= current_url() === site_url('admin/prefixes') ? ' active' : '' ?>" href="<?= site_url('admin/prefixes') ?>"><i class="bi bi-hash"></i><span class="nav-label">Préfixes</span></a>
-                <a class="nav-link<?= current_url() === site_url('admin/operateurs') ? ' active' : '' ?>" href="<?= site_url('admin/operateurs') ?>"><i class="bi bi-diagram-3"></i><span class="nav-label">Opérateurs</span></a>
-                <a class="nav-link<?= current_url() === site_url('admin/types-operation') ? ' active' : '' ?>" href="<?= site_url('admin/types-operation') ?>"><i class="bi bi-tags"></i><span class="nav-label">Types d'opération</span></a>
-                <a class="nav-link<?= current_url() === site_url('admin/frais') ? ' active' : '' ?>" href="<?= site_url('admin/frais') ?>"><i class="bi bi-percent"></i><span class="nav-label">Frais</span></a>
-                <a class="nav-link<?= current_url() === site_url('admin/rapports/gains') ? ' active' : '' ?>" href="<?= site_url('admin/rapports/gains') ?>"><i class="bi bi-graph-up-arrow"></i><span class="nav-label">Situation gains</span></a>
-                <a class="nav-link<?= current_url() === site_url('admin/rapports/montants') ? ' active' : '' ?>" href="<?= site_url('admin/rapports/montants') ?>"><i class="bi bi-bar-chart-line"></i><span class="nav-label">Montants par opérateur</span></a>
-                <a class="nav-link<?= current_url() === site_url('admin/rapports/journal') ? ' active' : '' ?>" href="<?= site_url('admin/rapports/journal') ?>"><i class="bi bi-journal-text"></i><span class="nav-label">Journal des transactions</span></a>
+            <button type="button" class="btn-close btn-close-white d-md-none" data-bs-dismiss="offcanvas" data-bs-target="#sidebarAdmin" aria-label="Fermer"></button>
+        </div>
+        <div class="offcanvas-body sidebar-body">
+            <nav class="nav flex-column sidebar-nav">
+                <a class="nav-link<?= current_url() === site_url('admin') ? ' active' : '' ?>" href="<?= site_url('admin') ?>"><i class="bi bi-speedometer2"></i><span>Tableau de bord</span></a>
+                <a class="nav-link<?= current_url() === site_url('admin/prefixes') ? ' active' : '' ?>" href="<?= site_url('admin/prefixes') ?>"><i class="bi bi-hash"></i><span>Préfixes</span></a>
+                <a class="nav-link<?= current_url() === site_url('admin/operateurs') ? ' active' : '' ?>" href="<?= site_url('admin/operateurs') ?>"><i class="bi bi-diagram-3"></i><span>Opérateurs</span></a>
+                <a class="nav-link<?= current_url() === site_url('admin/types-operation') ? ' active' : '' ?>" href="<?= site_url('admin/types-operation') ?>"><i class="bi bi-tags"></i><span>Types d'opération</span></a>
+                <a class="nav-link<?= current_url() === site_url('admin/frais') ? ' active' : '' ?>" href="<?= site_url('admin/frais') ?>"><i class="bi bi-percent"></i><span>Frais</span></a>
+                <a class="nav-link<?= current_url() === site_url('admin/rapports/gains') ? ' active' : '' ?>" href="<?= site_url('admin/rapports/gains') ?>"><i class="bi bi-graph-up-arrow"></i><span>Situation gains</span></a>
+                <a class="nav-link<?= current_url() === site_url('admin/rapports/montants') ? ' active' : '' ?>" href="<?= site_url('admin/rapports/montants') ?>"><i class="bi bi-bar-chart-line"></i><span>Montants par opérateur</span></a>
+                <a class="nav-link<?= current_url() === site_url('admin/rapports/journal') ? ' active' : '' ?>" href="<?= site_url('admin/rapports/journal') ?>"><i class="bi bi-journal-text"></i><span>Journal des transactions</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <form method="post" action="<?= site_url('admin/deconnexion') ?>" class="m-0">
+                    <?= csrf_field() ?>
+                    <button class="btn btn-outline-light btn-sm w-100"><i class="bi bi-box-arrow-right"></i> Deconnexion</button>
+                </form>
             </div>
-            <form method="post" action="<?= site_url('admin/deconnexion') ?>" class="m-0">
-                <?= csrf_field() ?>
-                <button class="btn btn-outline-light btn-sm"><i class="bi bi-box-arrow-right"></i> Deconnexion</button>
-            </form>
         </div>
     </div>
-</nav>
-<?php endif; ?>
 
+    <div class="flex-grow-1 main-content">
+        <nav class="navbar navbar-app-admin d-md-none mb-3">
+            <div class="container-fluid">
+                <button class="btn btn-outline-light btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarAdmin" aria-controls="sidebarAdmin">
+                    <i class="bi bi-list"></i>
+                </button>
+                <span class="navbar-brand mb-0"><i class="bi bi-shield-lock me-1"></i>VolaDigital · Admin</span>
+            </div>
+        </nav>
+
+        <div class="container">
+            <?php if (session()->getFlashdata('succes')): ?>
+                <div class="alert alert-success"><i class="bi bi-check-circle-fill me-2"></i><?= esc(session()->getFlashdata('succes')) ?></div>
+            <?php endif; ?>
+            <?php if (session()->getFlashdata('erreur')): ?>
+                <div class="alert alert-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i><?= esc(session()->getFlashdata('erreur')) ?></div>
+            <?php endif; ?>
+            <?php if (session()->getFlashdata('erreurs')): ?>
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        <?php foreach (session()->getFlashdata('erreurs') as $erreur): ?>
+                            <li><?= esc($erreur) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <?= $this->renderSection('content') ?>
+        </div>
+    </div>
+</div>
+<?php else: ?>
 <div class="container">
     <?php if (session()->getFlashdata('succes')): ?>
         <div class="alert alert-success"><i class="bi bi-check-circle-fill me-2"></i><?= esc(session()->getFlashdata('succes')) ?></div>
@@ -59,6 +94,7 @@
 
     <?= $this->renderSection('content') ?>
 </div>
+<?php endif; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
