@@ -204,7 +204,6 @@ PRAGMA foreign_keys = ON;
 -- Opérateurs (commission_inter_operateur = surcoût % pour un transfert
 -- qui sort vers un autre opérateur, en plus des frais normaux)
 INSERT INTO operateurs (nom_operateur, commission_inter_operateur) VALUES
-    ('Telma',  2.00),
     ('Orange', 2.00),
     ('Airtel', 2.50);
 

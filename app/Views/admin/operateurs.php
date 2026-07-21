@@ -40,7 +40,7 @@
                     <?php foreach ($operateurs as $o): ?>
                         <tr>
                             <td><?= esc($o['nom_operateur']) ?></td>
-                            <td><?= number_format((float) $o['commission_inter_operateur'], 2, ',', ' ') ?> %</td>
+                            <td><?= number_format((float) $o['commission_inter_operateur'], '', '', '') ?> %</td>
                             <td class="text-end">
                                 <form method="post" action="<?= site_url('admin/operateurs/' . $o['id'] . '/commission') ?>" class="d-flex justify-content-end gap-2">
                                     <?= csrf_field() ?>
